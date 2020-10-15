@@ -81,11 +81,14 @@
 		callback = callback || function () {};
 
 		// Generate an ID
-	    var newId = ""; 
-	    var charset = "0123456789";
+		function generateId() {
+			var newId = ""; 
+			var charset = "0123456789";
 
-        for (var i = 0; i < 6; i++) {
-     		newId += charset.charAt(Math.floor(Math.random() * charset.length));
+			for (var i = 0; i < 6; i++) {
+				newId += charset.charAt(Math.floor(Math.random() * charset.length));
+			}
+			return newId;
 		}
 
 		// If an ID was actually given, find the item and update each property
@@ -103,9 +106,21 @@
 			callback.call(this, todos);
 		} else {
 
-    		// Assign an ID
-			updateData.id = parseInt(newId);
-    
+			// Assign an ID
+			function assignId() {
+				const newId = generateId();
+				// Check all existing IDs
+				todos.forEach(task => {
+					// If an ID is already taken, generates a new one by calling this function again (recursion).
+					if (task.id === newId) {
+						console.debug('ID already exists in storage, generating a new one.');
+						assignId();
+					}
+				})
+				updateData.id = parseInt(newId);
+			}
+
+			assignId();
 
 			todos.push(updateData);
 			localStorage[this._dbName] = JSON.stringify(data);
