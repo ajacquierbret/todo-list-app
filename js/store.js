@@ -113,7 +113,6 @@
 				todos.forEach(task => {
 					// If an ID is already taken, generates a new one by calling this function again (recursion).
 					if (task.id === newId) {
-						console.debug('ID already exists in storage, generating a new one.');
 						assignId();
 					}
 				})
