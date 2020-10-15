@@ -175,9 +175,9 @@
 	Controller.prototype.removeCompletedItems = function () {
 		var self = this;
 		self.model.read({ completed: true }, function (data) {
-			data.forEach(function (item) {
+			for (const item of data) {
 				self.removeItem(item.id);
-			});
+			};
 		});
 
 		self._filter();
@@ -213,9 +213,9 @@
 	Controller.prototype.toggleAll = function (completed) {
 		var self = this;
 		self.model.read({ completed: !completed }, function (data) {
-			data.forEach(function (item) {
+			for (const item of data) {
 				self.toggleComplete(item.id, completed, true);
-			});
+			};
 		});
 
 		self._filter();

@@ -93,7 +93,7 @@
 
 		// If an ID was actually given, find the item and update each property
 		if (id) {
-			for (var i = 0; i < todos.length; i++) {
+			for (const [i, _el] of todos.entries()) {
 				if (todos[i].id === id) {
 					for (var key in updateData) {
 						todos[i][key] = updateData[key];
@@ -110,14 +110,14 @@
 			function assignId() {
 				const newId = generateId();
 				// Check all existing IDs
-				todos.forEach(task => {
+				for (const task of todos) {
 					// If an ID is already taken, generates a new one by calling this function again (recursion).
 					if (task.id === newId) {
 						assignId();
 					}
-				})
+				};
 				updateData.id = parseInt(newId);
-			}
+			};
 
 			assignId();
 
@@ -138,13 +138,13 @@
 		var todos = data.todos;
 		var todoId;
 		
-		for (var i = 0; i < todos.length; i++) {
+		for (const [i, _el] of todos.entries()) {
 			if (todos[i].id == id) {
 				todoId = todos[i].id;
 			}
 		}
 
-		for (var i = 0; i < todos.length; i++) {
+		for (const [i, _el] of todos.entries()) {
 			if (todos[i].id == todoId) {
 				todos.splice(i, 1);
 			}

@@ -101,7 +101,7 @@
 		};
 
 		this.storage.findAll(function (data) {
-			data.forEach(function (todo) {
+			for (const todo of data) {
 				if (todo.completed) {
 					todos.completed++;
 				} else {
@@ -109,7 +109,7 @@
 				}
 
 				todos.total++;
-			});
+			};
 			callback(todos);
 		});
 	};
