@@ -87,9 +87,9 @@
 
 		listItem.className = listItem.className.replace('editing', '');
 
-		qsa('label', listItem).forEach(function (label) {
+		for (const label of qsa('label', listItem)) {
 			label.textContent = title;
-		});
+		};
 	};
 
 	View.prototype.render = function (viewCmd, parameter) {

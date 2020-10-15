@@ -81,16 +81,19 @@
 		callback = callback || function () {};
 
 		// Generate an ID
-	    var newId = ""; 
-	    var charset = "0123456789";
+		function generateId() {
+			var newId = ""; 
+			var charset = "0123456789";
 
-        for (var i = 0; i < 6; i++) {
-     		newId += charset.charAt(Math.floor(Math.random() * charset.length));
+			for (var i = 0; i < 6; i++) {
+				newId += charset.charAt(Math.floor(Math.random() * charset.length));
+			}
+			return newId;
 		}
 
 		// If an ID was actually given, find the item and update each property
 		if (id) {
-			for (var i = 0; i < todos.length; i++) {
+			for (const [i, _el] of todos.entries()) {
 				if (todos[i].id === id) {
 					for (var key in updateData) {
 						todos[i][key] = updateData[key];
@@ -103,9 +106,20 @@
 			callback.call(this, todos);
 		} else {
 
-    		// Assign an ID
-			updateData.id = parseInt(newId);
-    
+			// Assign an ID
+			function assignId() {
+				const newId = generateId();
+				// Check all existing IDs
+				for (const task of todos) {
+					// If an ID is already taken, generates a new one by calling this function again (recursion).
+					if (task.id === newId) {
+						assignId();
+					}
+				};
+				updateData.id = parseInt(newId);
+			};
+
+			assignId();
 
 			todos.push(updateData);
 			localStorage[this._dbName] = JSON.stringify(data);
@@ -124,13 +138,13 @@
 		var todos = data.todos;
 		var todoId;
 		
-		for (var i = 0; i < todos.length; i++) {
+		for (const [i, _el] of todos.entries()) {
 			if (todos[i].id == id) {
 				todoId = todos[i].id;
 			}
 		}
 
-		for (var i = 0; i < todos.length; i++) {
+		for (const [i, _el] of todos.entries()) {
 			if (todos[i].id == todoId) {
 				todos.splice(i, 1);
 			}
