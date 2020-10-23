@@ -92,7 +92,7 @@
 	 * An event to fire whenever you want to add an item. Simply pass in the event
 	 * object and it'll handle the DOM insertion and saving of the new item.
 	 */
-	Controller.prototype.adddItem = function (title) {
+	Controller.prototype.addItem = function (title) {
 		var self = this;
 
 		if (title.trim() === '') {
@@ -162,12 +162,6 @@
 			items = data;
 		});
 
-		items.forEach(function(item) {
-			if (item.id === id) {
-				console.log("Element with ID: " + id + " has been removed.");
-			}
-		});
-
 		self.model.remove(id, function () {
 			self.view.render('removeItem', id);
 		});
@@ -181,9 +175,9 @@
 	Controller.prototype.removeCompletedItems = function () {
 		var self = this;
 		self.model.read({ completed: true }, function (data) {
-			data.forEach(function (item) {
+			for (const item of data) {
 				self.removeItem(item.id);
-			});
+			};
 		});
 
 		self._filter();
@@ -219,9 +213,9 @@
 	Controller.prototype.toggleAll = function (completed) {
 		var self = this;
 		self.model.read({ completed: !completed }, function (data) {
-			data.forEach(function (item) {
+			for (const item of data) {
 				self.toggleComplete(item.id, completed, true);
-			});
+			};
 		});
 
 		self._filter();
